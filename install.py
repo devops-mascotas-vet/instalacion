@@ -207,7 +207,7 @@ def install_prerequisites():
     )
     success = run_os_command(
         {
-            "python3": "sudo -H python3 -m pip install --upgrade setuptools wheel cryptography ansible~=2.8.15"
+            "python3": "sudo -H python3 -m pip install --upgrade setuptools wheel cryptography ansible~=2.12.1"
         }
     )
 
