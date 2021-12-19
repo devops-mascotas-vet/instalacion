@@ -252,7 +252,7 @@ def install_bench(args):
 
     if not args.user:
         if args.production:
-            args.user = "erpvet"
+            args.user = "erpvetadmin"
 
         elif "SUDO_USER" in os.environ:
             args.user = os.environ["SUDO_USER"]
