@@ -464,30 +464,20 @@ def parse_commandline_args():
 
 
 if __name__ == '__main__':
-	if sys.version[0] == '2':
-		if not os.environ.get('CI'):
-			if not raw_input("It is recommended to run this script with Python 3\nDo you still wish to continue? [Y/n]: ").lower() == "y":
-				sys.exit()
-
-		try:
-			from distutils.spawn import find_executable
-		except ImportError:
-			try:
-				subprocess.check_call('pip install --upgrade setuptools')
-			except subprocess.CalledProcessError:
-				print("Install distutils or use Python3 to run the script")
-				sys.exit(1)
-
-		shutil.which = find_executable
+	
+	if sys.version[0] > '2' and sys.version[2]>='9':
+		
+		log(sys.version[0]+"."+sys.version[2]+" Versión correcta de Python... Adelante!")
     
-	log("Bench + Frappe + ERPNext has been successfully installed!")
+	if not is_sudo_user():
+		euid = os.geteuid()
+		print("Usuario efectivo del proceso:", euid)
+		
+		#log("Please run this script as a non-root user with sudo privileges", level=3)
+		#sys.exit()
 
-	#if not is_sudo_user():
-	#	log("Please run this script as a non-root user with sudo privileges", level=3)
-	#	sys.exit()
-
-	#args = parse_commandline_args()
-
+		args = parse_commandline_args()
+		print(args)
 	#with warnings.catch_warnings():
 	#	warnings.simplefilter("ignore")
 	#	setup_log_stream(args)
