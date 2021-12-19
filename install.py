@@ -119,7 +119,8 @@ def get_distribution_info():
 	# return distribution name and major version
 	if platform.system() == "Linux":
 		if distro_required:
-			current_dist = distro.linux_distribution(full_distribution_name=True)
+			#current_dist = distro.linux_distribution(full_distribution_name=True)
+			current_dist = platform.dist()
 		else:
 			current_dist = platform.dist()
 
