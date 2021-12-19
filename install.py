@@ -205,11 +205,12 @@ def install_prerequisites():
     run_os_command(
         {"python3": "sudo -H python3 -m pip install --upgrade pip setuptools-rust"}
     )
-    success = run_os_command(
-        {
-            "python3": "sudo -H python3 -m pip install --upgrade setuptools wheel cryptography ansible~=2.12.1"
-        }
-    )
+    success = True
+	#run_os_command(
+    #    {
+    #        "python3": "sudo -H python3 -m pip install --upgrade setuptools wheel cryptography ansible~=2.12.1"
+    #    }
+    #)
 
     if not (success or shutil.which("ansible")):
         could_not_install("Ansible")
