@@ -82,7 +82,7 @@ def check_distribution_compatibility():
 	supported_dists = {
 		'macos': [10.9, 10.10, 10.11, 10.12],
 		'ubuntu': [14, 15, 16, 18, 19, 20],
-		'debian': [8, 9, 10],
+		'debian': [10, 11, 12],
 		'centos': [7]
 	}
 
@@ -429,16 +429,16 @@ def parse_commandline_args():
 	args_group = parser.add_mutually_exclusive_group()
 
 	args_group.add_argument('--develop', dest='develop', action='store_true', default=False, help='Install developer setup')
-	args_group.add_argument('--production', dest='production', action='store_true', default=False, help='Setup Production environment for bench')
-	parser.add_argument('--site', dest='site', action='store', default='site1.local', help='Specify name for your first ERPNext site')
+	args_group.add_argument('--production', dest='production', action='store_true', default=True, help='Setup Production environment for bench')
+	parser.add_argument('--site', dest='site', action='store', default='site1.local', help='Specify name for your first ERPVet site')
 	parser.add_argument('--without-site', dest='without_site', action='store_true', default=False, help='Do not create a new site')
-	parser.add_argument('--verbose', dest='verbose', action='store_true', default=False, help='Run the script in verbose mode')
+	parser.add_argument('--verbose', dest='verbose', action='store_true', default=True, help='Run the script in verbose mode')
 	parser.add_argument('--user', dest='user', help='Install frappe-bench for this user')
 	parser.add_argument('--bench-branch', dest='bench_branch', help='Clone a particular branch of bench repository')
 	parser.add_argument('--repo-url', dest='repo_url', help='Clone bench from the given url')
 	parser.add_argument('--frappe-repo-url', dest='frappe_repo_url', action='store', default='https://github.com/frappe/frappe', help='Clone frappe from the given url')
 	parser.add_argument('--frappe-branch', dest='frappe_branch', action='store', help='Clone a particular branch of frappe')
-	parser.add_argument('--erpnext-repo-url', dest='erpnext_repo_url', action='store', default='https://github.com/frappe/erpnext', help='Clone erpnext from the given url')
+	parser.add_argument('--erpnext-repo-url', dest='erpnext_repo_url', action='store', default='https://github.com/devops-mascotas-vet/instalacion', help='Clone erpnext from the given url')
 	parser.add_argument('--erpnext-branch', dest='erpnext_branch', action='store', help='Clone a particular branch of erpnext')
 	parser.add_argument('--without-erpnext', dest='without_erpnext', action='store_true', default=False, help='Prevent fetching ERPNext')
 	# direct provision to install versions
@@ -450,7 +450,7 @@ def parse_commandline_args():
 	parser.add_argument('--overwrite', dest='overwrite', action='store_true', default=False, help='Whether to overwrite an existing bench')
 	# set passwords
 	parser.add_argument('--mysql-root-password', dest='mysql_root_password', help='Set mysql root password')
-	parser.add_argument('--mariadb-version', dest='mariadb_version', default='10.4', help='Specify mariadb version')
+	parser.add_argument('--mariadb-version', dest='mariadb_version', default='10.5', help='Specify mariadb version')
 	parser.add_argument('--admin-password', dest='admin_password', help='Set admin password')
 	parser.add_argument('--bench-name', dest='bench_name', help='Create bench with specified name. Default name is frappe-bench')
 	# Python interpreter to be used
@@ -466,16 +466,16 @@ def parse_commandline_args():
 if __name__ == '__main__':
 	
 	if sys.version[0] > '2' and sys.version[2]>='9':
-		
 		log(sys.version[0]+"."+sys.version[2]+" Versión correcta de Python... Adelante!")
-    
-	if not is_sudo_user():
+	else:
+		log(sys.version[0]+"."+sys.version[2]+" Versión incorrecta de Python... Saliendo")
+		sys.exit()
+	if is_sudo_user():
+		log("Please run this script as a non-root user with sudo privileges", level=3)
+		sys.exit()
+	else:
 		euid = os.geteuid()
 		print("Usuario efectivo del proceso:", euid)
-		
-		#log("Please run this script as a non-root user with sudo privileges", level=3)
-		#sys.exit()
-
 		args = parse_commandline_args()
 		print(args)
 	#with warnings.catch_warnings():
