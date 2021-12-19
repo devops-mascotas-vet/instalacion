@@ -24,10 +24,11 @@ log_file_name = "easy-install__{0}__{1}.log".format(
 )
 log_path = os.path.join(tmp_log_folder, log_file_name)
 log_stream = sys.stdout
-distro_required = not (
-    (sys.version_info.major < 3)
-    or (sys.version_info.major == 3 and sys.version_info.minor < 5)
-)
+distro_required = False
+#not (
+#    (sys.version_info.major < 3)
+#    or (sys.version_info.major == 3 and sys.version_info.minor < 5)
+#)
 
 
 def log(message, level=0):
@@ -141,10 +142,10 @@ def get_distribution_info():
     # return distribution name and major version
     if platform.system() == "Linux":
         if distro_required:
-            # current_dist = distro.linux_distribution(full_distribution_name=True)
-            current_dist = platform.dist()
+            #current_dist = distro.linux_distribution(full_distribution_name=True)
+            current_dist = platform.release()
         else:
-            current_dist = platform.dist()
+            current_dist = platform.release()
 
         return current_dist[0].lower(), current_dist[1].rsplit(".")[0]
 
