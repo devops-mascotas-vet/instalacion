@@ -23,12 +23,12 @@ curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 #./install.sh
 apt-get install software-properties-common
 apt install -y nodejs mariadb-server redis-server nginx
-apt install python3-testresources python3-distutils python3-setuptools python3->
+apt install python3-testresources python3-distutils python3-setuptools python3-pip 
 apt install libssl-dev wkhtmltopdf
 #apt-get install libmysqlclient-dev
 apt-get libmariadb-dev
-adduser erpvet
-usermod -aG sudo erpvet
+adduser erpvetadmin
+usermod -aG sudo erpvetadmin
 echo "[mysqld]" >>  /etc/mysql/my.cnf
 echo "character-set-client-handshake = FALSE" >>  /etc/mysql/my.cnf
 echo "character-set-server = utf8mb4" >>  /etc/mysql/my.cnf
